@@ -1,0 +1,17 @@
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'Users')
+BEGIN
+	CREATE TABLE Users (
+		Id INT IDENTITY(1,1) PRIMARY KEY,
+		Nombre VARCHAR(MAX),
+		Identificacion VARCHAR(MAX),
+		Email VARCHAR(MAX),
+		Password VARCHAR(MAX)
+	)
+END
+
+SELECT *
+FROM Users
+
+--truncate table Users
+--drop table Users

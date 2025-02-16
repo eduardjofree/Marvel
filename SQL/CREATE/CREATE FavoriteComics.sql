@@ -1,0 +1,13 @@
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'FavoriteComics')
+BEGIN
+	CREATE TABLE FavoriteComics (
+		Id INT IDENTITY(1,1) PRIMARY KEY,
+		UserId INT,
+		ComicId INT
+	)
+END
+
+SELECT *
+FROM FavoriteComics
+
+--DROP TABLE FavoriteComics
