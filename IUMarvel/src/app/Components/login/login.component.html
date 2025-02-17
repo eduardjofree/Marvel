@@ -1,59 +1,59 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="text-center mb-4">Iniciar Sesión</h3>
-  
-            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-              <!-- Correo -->
-              <div class="mb-3">
-                <label for="email" class="form-label">Correo Electrónico</label>
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+  <div class="row justify-content-center w-100">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="text-center mb-4">Iniciar Sesión</h3>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <!-- Correo -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input 
+                type="email" 
+                id="email"
+                class="form-control" 
+                formControlName="email"
+                [class.is-invalid]="formControls['email'].invalid && formControls['email'].touched">
+              <div *ngIf="formControls['email'].invalid && formControls['email'].touched" class="text-danger">
+                El correo es obligatorio y debe tener formato válido.
+              </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <div class="input-group">
                 <input 
-                  type="email" 
-                  id="email"
+                  [type]="showPassword ? 'text' : 'password'" 
+                  id="password"
                   class="form-control" 
-                  formControlName="email"
-                  [class.is-invalid]="formControls['email'].invalid && formControls['email'].touched">
-                <div *ngIf="formControls['email'].invalid && formControls['email'].touched" class="text-danger">
-                  El correo es obligatorio y debe tener formato válido.
-                </div>
+                  formControlName="password"
+                  [class.is-invalid]="formControls['password'].invalid && formControls['password'].touched">
+                <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+                  <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+                </button>
               </div>
-  
-              <!-- Contraseña -->
-              <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <div class="input-group">
-                  <input 
-                    [type]="showPassword ? 'text' : 'password'" 
-                    id="password"
-                    class="form-control" 
-                    formControlName="password"
-                    [class.is-invalid]="formControls['password'].invalid && formControls['password'].touched">
-                  <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
-                    <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
-                  </button>
-                </div>
-                <div *ngIf="formControls['password'].invalid && formControls['password'].touched" class="text-danger">
-                  La contraseña es obligatoria y debe tener al menos 6 caracteres.
-                </div>
+              <div *ngIf="formControls['password'].invalid && formControls['password'].touched" class="text-danger">
+                La contraseña es obligatoria y debe tener al menos 6 caracteres.
               </div>
-  
-              <!-- Botón de inicio de sesión -->
-              <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Ingresar</button>
-  
-              <!-- Mensaje de error -->
-              <div *ngIf="errorMessage" class="text-danger text-center mt-3">
-                {{ errorMessage }}
-              </div>
-  
-              <!-- Enlace para registrarse -->
-              <div class="text-center mt-3">
-                <p>¿No tienes cuenta? <a routerLink="/register">Regístrate</a></p>
-              </div>
-            </form>
-          </div>
+            </div>
+
+            <!-- Botón de inicio de sesión -->
+            <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Ingresar</button>
+
+            <!-- Mensaje de error -->
+            <div *ngIf="errorMessage" class="text-danger text-center mt-3">
+              {{ errorMessage }}
+            </div>
+
+            <!-- Enlace para registrarse -->
+            <div class="text-center mt-3">
+              <p>¿No tienes cuenta? <a routerLink="/register">Regístrate</a></p>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>

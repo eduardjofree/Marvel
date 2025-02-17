@@ -1,38 +1,84 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow-lg" style="width: 350px;">
-      <h2 class="text-center mb-4">Registro</h2>
-  
-      <form>
-        <div class="mb-3">
-          <label for="name" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="name" placeholder="Tu nombre">
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <!-- Formulario de Registro (Oculto si isRegistered es true) -->
+  <div class="card p-4 shadow-lg" style="width: 380px; border-radius: 12px;" *ngIf="!isRegistered">
+    <h2 class="text-center mb-4">Registro</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="name" formControlName="nombre">
+        <small class="text-danger" *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched">
+          Nombre es obligatorio.
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label for="id" class="form-label">Identificación</label>
+        <input type="text" class="form-control" id="id" formControlName="identificacion">
+        <small class="text-danger" *ngIf="registerForm.get('identificacion')?.invalid && registerForm.get('identificacion')?.touched">
+          Identificación es obligatoria.
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+        <small class="text-danger" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          Introduzca un correo electrónico válido.
+        </small>
+      </div>
+
+      <div class="mb-3 position-relative">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group">
+          <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password" formControlName="password" placeholder="********">
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+            <i [ngClass]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
         </div>
-  
-        <div class="mb-3">
-          <label for="id" class="form-label">Identificación</label>
-          <input type="text" class="form-control" id="id" placeholder="Tu identificación">
+        <small class="text-danger" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          La contraseña es obligatoria.
+        </small>
+      </div>
+      
+      <div class="mb-3 position-relative">
+        <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+        <div class="input-group">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="********">
+          <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPasswordVisibility()">
+            <i [ngClass]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
         </div>
-  
-        <div class="mb-3">
-          <label for="email" class="form-label">Correo Electrónico</label>
-          <input type="email" class="form-control" id="email" placeholder="correo@ejemplo.com">
+        <small class="text-danger" *ngIf="registerForm.errors?.['passwordsMismatch'] && registerForm.get('confirmPassword')?.touched">
+          Las contraseñas no coinciden.
+        </small>
+      </div>
+
+      <!-- Mensaje de error general -->
+      <div *ngIf="errorMessage" class="alert alert-danger text-center p-2">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn btn-success w-100" [disabled]="registerForm.invalid">Registrarse</button>
+
+      <div class="text-center mt-3">
+        <a href="#" class="text-decoration-none">¿Ya tienes cuenta? Inicia sesión</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal de Éxito (Mostrado cuando isRegistered es true) -->
+  <div class="modal show d-block" tabindex="-1" role="dialog" *ngIf="isRegistered">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Registro Exitoso</h5>
         </div>
-  
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="password" placeholder="********">
+        <div class="modal-body">
+          <p>¡Tu cuenta ha sido creada con éxito!</p>
         </div>
-  
-        <div class="mb-3">
-          <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-          <input type="password" class="form-control" id="confirmPassword" placeholder="********">
+        <div class="modal-footer">
+          <button class="btn btn-primary" (click)="isRegistered = false; redirectToLogin()">Aceptar</button>
         </div>
-  
-        <button type="submit" class="btn btn-success w-100">Registrarse</button>
-  
-        <div class="text-center mt-3">
-          <a href="#" class="text-decoration-none">¿Ya tienes cuenta? Inicia sesión</a>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
+</div>

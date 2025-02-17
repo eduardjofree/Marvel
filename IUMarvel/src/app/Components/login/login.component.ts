@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Services/Auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   showPassword: boolean = false;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router,private authService: AuthService,) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -28,12 +29,22 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      // Simulación de autenticación (cambiar por una API real)
-      if (email === 'admin@email.com' && password === '123456') {
-        this.router.navigate(['/dashboard']); // Redirige al dashboard
-      } else {
-        this.errorMessage = 'Correo o contraseña incorrectos';
-      }
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          if (response.result == null) {
+            this.errorMessage = 'Credenciales incorrectas';
+          }
+          else{
+            localStorage.setItem('token', response.result.token); // Guardar token si la API lo devuelve
+            this.errorMessage = ""
+            this.router.navigate(['/dashboard']);
+          }
+          
+        },
+        error: () => {
+          this.errorMessage = 'Ha ocurrido un error';
+        },
+      });
     }
   }
 

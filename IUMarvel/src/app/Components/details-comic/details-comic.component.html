@@ -1,0 +1,60 @@
+<div class="container mt-5">
+    <div *ngIf="comic" class="row">
+      <div class="col-12">
+        <!-- Enlace para ir a Dashboard -->
+        <div class=" mt-4">
+          <a [routerLink]="['/dashboard']" class="">Volver al Dashboard</a>
+        </div>
+        <h3 class="text-center mb-4">{{ comic.title }}</h3>
+  
+        <!-- Imagen del cómic -->
+        <div class="text-center mb-3">
+          <img [src]="comic.imageUrl || 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'" class="img-fluid" alt="{{ comic.title }}">
+        </div>
+  
+        <!-- Descripción -->
+        <p><strong>Descripción:</strong> {{ comic.description || 'Sin descripción disponible' }}</p>
+  
+        <!-- Resumen (Texto) -->
+        <ng-container *ngIf="comic.textObjects?.length > 0">
+          <p>
+            <strong>Resumen:</strong>
+            <span [innerHTML]="comic.textObjects[0]?.text"></span>
+          </p>
+        </ng-container>
+  
+        <!-- Creadores -->
+        <ng-container *ngIf="comic.creators?.items?.length > 0">
+          <strong>Creadores:</strong>
+          <ul>
+            <li *ngFor="let creator of comic.creators.items">
+              <strong>{{ creator.name }}</strong> - {{ creator.role }}
+            </li>
+          </ul>
+        </ng-container>
+  
+        <!-- Recuento de páginas -->
+        <p *ngIf="comic.pageCount">
+          <strong>Recuento de páginas:</strong> {{ comic.pageCount }}
+        </p>
+  
+        <!-- Número de emisión -->
+        <p *ngIf="comic.issueNumber >= 0">
+          <strong>Número de emisión:</strong> {{ comic.issueNumber }}
+        </p>
+  
+        <!-- Enlace a más detalles -->
+        <ng-container *ngIf="comic.urls?.length > 0">
+          <ng-container *ngFor="let url of comic.urls">
+            <a *ngIf="url.type === 'detail'"
+               [href]="url.url"
+               target="_blank"
+               class="btn btn-info w-100 mt-2">
+              Ver detalles en Marvel
+            </a>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  
