@@ -29,12 +29,18 @@ namespace APIMarvel.src.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<User> GetById(int userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
         // FUNCIONES NUEVAS
 
         public IEnumerable<User> GetUsers()
         {
             return _context.Users.ToList();
         }
+
         public User GetUserById(int id)
         {
             return _context.Users.Find(id);
@@ -42,17 +48,22 @@ namespace APIMarvel.src.Infrastructure.Repositories
 
         public async Task<dynamic> CreateUserAsync(User ObjUser)
         {
-            var existRegist = _context.Users.FirstOrDefault(a => a.Email == ObjUser.Email);
-            if (existRegist == null)
+            // Verificar si el usuario ya existe por correo o identificación
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == ObjUser.Email || u.Identificacion == ObjUser.Identificacion);
+
+            if (existingUser != null)
             {
-                await _context.Users.AddAsync(ObjUser);
-                await _context.SaveChangesAsync();
-                return ObjUser;
+                return false; // Usuario ya existe
             }
-            else
-            {
-                return null;
-            }
+
+            // Encriptar contraseña antes de guardarla
+            //ObjUser.Password = BCrypt.Net.BCrypt.HashPassword(ObjUser.Password);
+
+            // Guardar usuario en la base de datos
+            _context.Users.Add(ObjUser);
+            await _context.SaveChangesAsync();
+            return true;
 
         }
 

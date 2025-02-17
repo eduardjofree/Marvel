@@ -23,8 +23,8 @@ namespace APIMarvel.src.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<RequestUser>> Login([FromBody] RequestUser request)
         {
-            var user = await _authService.LoginAsync(request.Email, request.Password);
-            return Ok(new { User = user });
+            var token = await _authService.LoginAsync(request.Email, request.Password);
+            return Ok(new { Result = token });
         }
 
         [HttpPost("forgot-password")]

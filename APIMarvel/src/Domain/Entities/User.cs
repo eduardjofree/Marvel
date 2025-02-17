@@ -4,11 +4,11 @@ namespace APIMarvel.src.Domain.Entities
 {
     public class User
     {
-        public int Id { get; private set; }
-        public string Nombre { get; private set; }
-        public string Identificacion { get; private set; }
-        public string Email { get; private set; }
-        public string Password { get; private set; }
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Identificacion { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
         public User(string nombre, string identificacion, string email, string password)
         {
@@ -17,7 +17,7 @@ namespace APIMarvel.src.Domain.Entities
             Email = email;
             Password = password;
         }
-        private User() { }
+        public User() { }
 
 
         private string HashPassword(string password)

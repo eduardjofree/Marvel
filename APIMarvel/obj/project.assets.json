@@ -89,6 +89,19 @@
           }
         }
       },
+      "jose-jwt/5.1.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Security.Cryptography.Cng": "5.0.0",
+          "System.Text.Json": "9.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/jose-jwt.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/jose-jwt.dll": {}
+        }
+      },
       "MediatR/11.0.0": {
         "type": "package",
         "dependencies": {
@@ -1958,6 +1971,24 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "jose-jwt/5.1.1": {
+      "sha512": "ojuSkZaJsYqz8nAI2Nb1G240gu7v3iTf9hBS3JRmTn89MqG+FT6a5+9gZTBi/2/RqZdQhcZSfYTfA10IZfA6dA==",
+      "type": "package",
+      "path": "jose-jwt/5.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "jose-jwt.5.1.1.nupkg.sha512",
+        "jose-jwt.nuspec",
+        "lib/net40/jose-jwt.dll",
+        "lib/net461/jose-jwt.dll",
+        "lib/net472/jose-jwt.dll",
+        "lib/netstandard1.4/jose-jwt.dll",
+        "lib/netstandard2.1/jose-jwt.dll"
       ]
     },
     "MediatR/11.0.0": {
@@ -5331,6 +5362,7 @@
       "Moq >= 4.20.72",
       "Swashbuckle.AspNetCore >= 6.6.2",
       "System.IdentityModel.Tokens.Jwt >= 8.4.0",
+      "jose-jwt >= 5.1.1",
       "xunit.assert >= 2.9.3",
       "xunit.extensibility.core >= 2.9.3"
     ]
@@ -5427,6 +5459,10 @@
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[8.4.0, )"
+          },
+          "jose-jwt": {
+            "target": "Package",
+            "version": "[5.1.1, )"
           },
           "xunit.assert": {
             "target": "Package",

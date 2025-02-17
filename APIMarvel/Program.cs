@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using APIMarvel.src.Application.Interfaces;
 using APIMarvel.src.Application.Services;
 using APIMarvel.src.Infrastructure.Repositories;
+using APIMarvel.src.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,10 +27,14 @@ builder.Services.AddScoped<FavoriteComicService>();
 // Agregar HttpClient para la API de Marvel
 builder.Services.AddHttpClient<IComicRepository, ComicRepository>();
 
-// 🔹 Configurar JWT desde appsettings.json
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Secret") ?? throw new InvalidOperationException("JWT Secret is missing"));
+// 🔹 Cargar configuración de JWT y mapearla a un objeto fuertemente tipado
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 
+if (string.IsNullOrEmpty(jwtSettings?.Secret))
+{
+    throw new InvalidOperationException("JWT Secret is missing in the configuration");
+}
 
 // 🔹 Configurar autenticación con JWT
 builder.Services.AddAuthentication(options =>
@@ -44,16 +49,31 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
         ValidateLifetime = true
     };
 });
 
-// Inyección de dependencias
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+//VARIABLE PARA ACTIVAR LOS CORS
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+//INSTANCIA PARA PERMITIR CORS DESDE UN ORIGEN
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowCredentials()
+                          .WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
+
+                      });
+});
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
@@ -94,6 +114,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

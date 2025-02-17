@@ -8,7 +8,6 @@ namespace APIMarvel.src.Infrastructure.Repositories
     public class FavoriteComicRepository : IFavoriteComicRepository
     {
         private readonly MarvelDbContext _context;
-
         public FavoriteComicRepository(MarvelDbContext context)
         {
             _context = context;

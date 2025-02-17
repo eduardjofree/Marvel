@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "I9MXaOIOpjQ=",
+  "dgSpecHash": "RihbO1kHLi4=",
   "success": true,
   "projectFilePath": "D:\\Documentos\\PRUEBA\\APIMarvel\\APIMarvel.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\USUARIO\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\USUARIO\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\USUARIO\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\USUARIO\\.nuget\\packages\\jose-jwt\\5.1.1\\jose-jwt.5.1.1.nupkg.sha512",
     "C:\\Users\\USUARIO\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\USUARIO\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\USUARIO\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",

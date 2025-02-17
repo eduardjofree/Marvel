@@ -1,9 +1,14 @@
-﻿using APIMarvel.src.Application.Interfaces;
+﻿using APIMarvel.src.Application.DTOs;
+using APIMarvel.src.Application.Interfaces;
 using APIMarvel.src.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace APIMarvel.src.Controllers
 {
+    [Route("api/user")]
+    [ApiController]
     public class UserController: ControllerBase
     {
         private IAuthService _userRepository;
@@ -15,25 +20,39 @@ namespace APIMarvel.src.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> CreateUser([FromBody] User ObjtUser)
+        public async Task<ActionResult<RequestRegistUser>> CreateUser([FromBody] User ObjtUser)
         {
-            try
+            var result = await _userService.CreateUserAsync(ObjtUser);
+            if (!result)
             {
-                var result = await _userService.CreateUserAsync(ObjtUser);
-                if (result != null)
-                {
-                    return Ok(1);
-                }
-                else
-                {
-                    return Ok(0);
-                }
+                //return Conflict("El usuario ya existe con este correo o identificación.");
+                return Ok(new { result = 0, message = "El usuario ya existe con este correo o identificación." });
             }
-            catch (Exception e)
+            return Ok(new { result = 1, message = "Usuario registrado exitosamente." });
+
+        }
+
+        [HttpGet("profile")]
+        [Authorize]
+        public async Task<IActionResult> GetUserProfile()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // Espera el resultado de la tarea asincrónica para obtener el usuario
+            var user = await _userService.GetById(int.Parse(userId));
+
+            if (user == null)
             {
-                return Ok(e.Message);
+                return NotFound();
             }
 
+            // Devuelve los datos del usuario
+            return Ok(new
+            {
+                Id = user.Id,
+                Nombre = user.Nombre,
+                Identificacion = user.Identificacion,
+                Email = user.Email
+            });
         }
     }
 }

@@ -178,3 +178,4 @@ D:\Documentos\PRUEBA\APIMarvel\bin\Debug\net8.0\xunit.core.dll
 D:\Documentos\PRUEBA\APIMarvel\bin\Debug\net8.0\MediatR.dll
 D:\Documentos\PRUEBA\APIMarvel\bin\Debug\net8.0\MediatR.Contracts.dll
 D:\Documentos\PRUEBA\APIMarvel\bin\Debug\net8.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+D:\Documentos\PRUEBA\APIMarvel\bin\Debug\net8.0\jose-jwt.dll

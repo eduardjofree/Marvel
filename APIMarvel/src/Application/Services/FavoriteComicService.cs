@@ -1,5 +1,6 @@
 ﻿using APIMarvel.src.Application.Interfaces;
 using APIMarvel.src.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace APIMarvel.src.Application.Services
 {
@@ -15,9 +16,17 @@ namespace APIMarvel.src.Application.Services
         }
 
         // Obtener los cómics favoritos de un usuario
-        public async Task<List<FavoriteComic>> GetFavoritesByUserAsync(int userId)
+        public async Task<List<Comic>> GetFavoritesByUserAsync(int userId)
         {
-            return await _favoriteComicRepository.GetFavoritesByUserAsync(userId);
+            var resultFavoriteComic = new List<FavoriteComic>();
+            var resultListComicFavorite = new List<Comic>();
+            resultFavoriteComic = await _favoriteComicRepository.GetFavoritesByUserAsync(userId);
+            foreach (var item in resultFavoriteComic)
+            {
+                var resultComicInf = await _comicRepository.GetComicByIdAsync(item.ComicId);
+                resultListComicFavorite.Add(resultComicInf);
+            }
+            return resultListComicFavorite;
         }
 
         // Agregar un cómic a favoritos

@@ -4,6 +4,7 @@ namespace APIMarvel.src.Application.Interfaces
 {
     public interface IUserRepository
     {
+        Task<User> GetById(int userId);
         Task AddAsync(User user);
         Task<User> GetByEmailAsync(string email);
         Task UpdateAsync(User user);
