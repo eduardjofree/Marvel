@@ -51,8 +51,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-18T16:33:02.057Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-18T16:33:02.057Z"
             },
             {
               "$type": "Document",
@@ -64,8 +63,7 @@
               "RelativeToolTip": "src\\Infrastructure\\Repositories\\ComicRepository.cs",
               "ViewState": "AQIAADcAAAAAAAAAAAAcwAIAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-18T16:30:45.819Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-18T16:30:45.819Z"
             },
             {
               "$type": "Document",
@@ -77,8 +75,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-02-18T16:30:13.246Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-18T16:30:13.246Z"
             }
           ]
         }
