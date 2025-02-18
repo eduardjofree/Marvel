@@ -18,16 +18,5 @@ namespace APIMarvel.src.Domain.Entities
             Password = password;
         }
         public User() { }
-
-
-        private string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
-
-        public bool VerifyPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.Verify(password, Password);
-        }
     }
 }

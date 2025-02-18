@@ -4,12 +4,10 @@ using ResetPasswordDTO = APIMarvel.src.Application.DTOs.ResetPasswordRequest;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using APIMarvel.src.Application.Interfaces;
-using APIMarvel.src.Domain.Entities;
 using APIMarvel.src.Application.DTOs;
 
 namespace APIMarvel.src.Controllers
 {
-    // APIMarvel.API/Controllers/AuthController.cs
     [ApiController]
     [Route("api/auth")]
     public class AuthController : ControllerBase

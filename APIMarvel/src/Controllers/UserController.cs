@@ -1,5 +1,6 @@
 ﻿using APIMarvel.src.Application.DTOs;
 using APIMarvel.src.Application.Interfaces;
+using APIMarvel.src.Application.Services;
 using APIMarvel.src.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +14,16 @@ namespace APIMarvel.src.Controllers
     {
         private IAuthService _userRepository;
 
-        private readonly IUserRepository _userService;
-        public UserController(IUserRepository userService)
+        private readonly UserService _userService;
+        public UserController(UserService userService)
         {
             _userService = userService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RequestRegistUser>> CreateUser([FromBody] User ObjtUser)
+        public async Task<ActionResult> CreateUser([FromBody] User ObjtUser)
         {
-            var result = await _userService.CreateUserAsync(ObjtUser);
+            var result = await _userService.AddUserAsync(ObjtUser);
             if (!result)
             {
                 //return Conflict("El usuario ya existe con este correo o identificación.");

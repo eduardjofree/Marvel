@@ -4,16 +4,19 @@ using System.Text.Json;
 
 namespace APIMarvel.src.Infrastructure.Repositories
 {
-    public class ComicRepository: IComicRepository
+    public class ComicRepository : IComicRepository
     {
         private readonly HttpClient _httpClient;
-        private const string PublicKey = "174183e7c9d735f747d47e9e9f817a24";
-        private const string PrivateKey = "ca0f814e5337bbdd3ff261847dc87e0d2029a9b6";
-        private const string BaseUrl = "https://gateway.marvel.com/v1/public/comics";
+        private readonly string _publicKey;
+        private readonly string _privateKey;
+        private readonly string _baseUrl;
 
-        public ComicRepository(HttpClient httpClient)
+        public ComicRepository(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
+            _publicKey = configuration["marvelSettings:PublicKey"];
+            _privateKey = configuration["marvelSettings:PrivateKey"];
+            _baseUrl = configuration["marvelSettings:BaseUrl"];
         }
 
         public async Task<List<Comic>> GetAllComicsAsync()
@@ -29,7 +32,7 @@ namespace APIMarvel.src.Infrastructure.Repositories
 
         public async Task<Comic> GetComicByIdAsync(int id)
         {
-            string url = $"{BaseUrl}/{id}{GenerateMarvelAuth()}";
+            string url = $"{_baseUrl}/{id}{GenerateMarvelAuth()}";
             HttpResponseMessage response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
             string jsonString = await response.Content.ReadAsStringAsync();
@@ -40,14 +43,14 @@ namespace APIMarvel.src.Infrastructure.Repositories
 
         private string GenerateMarvelUrl()
         {
-            return $"{BaseUrl}{GenerateMarvelAuth()}";
+            return $"{_baseUrl}{GenerateMarvelAuth()}";
         }
 
         private string GenerateMarvelAuth()
         {
             string ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
-            string hash = GenerateMD5Hash(ts + PrivateKey + PublicKey);
-            return $"?ts={ts}&apikey={PublicKey}&hash={hash}";
+            string hash = GenerateMD5Hash(ts + _privateKey + _publicKey);
+            return $"?ts={ts}&apikey={_publicKey}&hash={hash}";
         }
 
         private static string GenerateMD5Hash(string input)
@@ -60,15 +63,12 @@ namespace APIMarvel.src.Infrastructure.Repositories
     }
 }
 
+
 // Modelos internos para deserializar JSON
 internal class MarvelComicResponse
 {
     public MarvelComicData data { get; set; }
 }
-//internal class MarvelComicResponse
-//{
-//    public dynamic data { get; set; }
-//}
 
 internal class MarvelComicData
 {

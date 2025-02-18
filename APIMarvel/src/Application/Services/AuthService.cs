@@ -13,30 +13,42 @@ namespace APIMarvel.src.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly JwtSettingsApp _jwtSettings;
-        public AuthService(IUserRepository userRepository, IOptions<JwtSettingsApp> jwtSettings)
+        private readonly EncryptionService _encryptionService;
+        public AuthService(IUserRepository userRepository, IOptions<JwtSettingsApp> jwtSettings, EncryptionService encryptionService)
         {
             _userRepository = userRepository;
             _jwtSettings = jwtSettings.Value;
+            _encryptionService = encryptionService;
         }
 
         public async Task<dynamic> LoginAsync(string email, string password)
         {
-            // Verifica que el usuario existe y la contraseña es correcta
             var user = await _userRepository.GetByEmailAsync(email);
 
-            if (user == null || password != user.Password)
+            if (user == null)
             {
-                return null; // Usuario no encontrado o contraseña incorrecta
+                return null;
             }
-
-            // Si el login es exitoso, genera el token
-            var token = GenerateJwtToken(user);
-
-            // Devuelve el token y la información del usuario
-            return new AuthResponse
+            else
             {
-                Token = token
-            };
+                // Desencriptar la contraseña
+                string decryptedPassword = _encryptionService.Decrypt(user.Password);
+                if (decryptedPassword != password)
+                {
+                    return null;
+                }
+                else
+                {
+                    var token = GenerateJwtToken(user);
+
+                    return new AuthResponse
+                    {
+                        Token = token
+                    };
+                }
+                
+            }
+           
         }
 
         public async Task<string> RequestPasswordResetAsync(string email)

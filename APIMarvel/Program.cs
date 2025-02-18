@@ -23,9 +23,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IComicRepository, ComicRepository>();
 builder.Services.AddScoped<IFavoriteComicRepository, FavoriteComicRepository>();
 builder.Services.AddScoped<ComicService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FavoriteComicService>();
 // Agregar HttpClient para la API de Marvel
 builder.Services.AddHttpClient<IComicRepository, ComicRepository>();
+
+
+// Configurar clave desde appsettings.json
+var encryptionKey = builder.Configuration["EncryptionSettings:Key"];
+builder.Services.AddSingleton(new EncryptionService(encryptionKey));
 
 // 🔹 Cargar configuración de JWT y mapearla a un objeto fuertemente tipado
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
