@@ -13,6 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   showPassword: boolean = false;
   errorMessage: string = '';
+  isLoading = true;
 
   constructor(private fb: FormBuilder, private router: Router,private authService: AuthService,) {
     this.loginForm = this.fb.group({
@@ -33,10 +34,12 @@ export class LoginComponent {
         next: (response) => {
           if (response.result == null) {
             this.errorMessage = 'Credenciales incorrectas';
+            this.isLoading = false
           }
           else{
             localStorage.setItem('token', response.result.token); // Guardar token si la API lo devuelve
             this.errorMessage = ""
+            this.isLoading = false
             this.router.navigate(['/dashboard']);
           }
           

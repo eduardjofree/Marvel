@@ -44,15 +44,16 @@ export class RegisterComponent {
     }
 
     const formData = this.registerForm.value;
-    console.log('Registrando usuario:', formData);
 
     this.authService.register(this.registerForm.value).subscribe({
       next: (response) => {
         if (response.result == 0) {
+          this.errorMessage = ""
           alert(response.message);
         }
         else{
           // this.isRegistered = true;
+          this.errorMessage = ""
           alert(response.message);
           this.resetForm();
         }
