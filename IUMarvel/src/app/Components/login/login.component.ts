@@ -16,6 +16,8 @@ export class LoginComponent {
   isLoading = true;
 
   constructor(private fb: FormBuilder, private router: Router,private authService: AuthService,) {
+    // eliminar cualquier token
+    localStorage.removeItem('token');
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]

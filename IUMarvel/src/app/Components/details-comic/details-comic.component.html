@@ -1,10 +1,16 @@
 <div class="container mt-5">
     <div *ngIf="comic" class="row">
       <div class="col-12">
-        <!-- Enlace para ir a Dashboard -->
-        <div class=" mt-4">
-          <a [routerLink]="['/dashboard']" class="">Volver al Dashboard</a>
+        
+        <!-- Loader de Angular Material mientras se cargan los cómics -->
+        <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center my-5">
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate"
+            diameter="50">
+          </mat-progress-spinner>
         </div>
+
         <h3 class="text-center mb-4">{{ comic.title }}</h3>
   
         <!-- Imagen del cómic -->

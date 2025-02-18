@@ -1,36 +1,52 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" [routerLink]="['/dashboard']">APIMarvel</a>
-  
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <!-- Información del Usuario -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-               {{ user.nombre }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="#">Identificación: {{ user.identificacion }}</a></li>
-              <li><a class="dropdown-item" href="#">Email: {{ user.email }}</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <button class="dropdown-item text-danger" (click)="logout()">Cerrar sesión</button>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/dashboard']">APIMarvel</a>
+
+    <!-- Botón para mostrar menú en pantallas pequeñas -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menú de navegación -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto d-flex align-items-center">
+        
+        <!-- Botón Comic's Favoritos -->
+        <li class="nav-item me-2"> <!-- 🔹 Añadí margen a la derecha para separar -->
+          <a *ngIf="currentRoute === '/dashboard' || currentRoute.includes('/details')" class="nav-link active" [routerLink]="['/favorites']">
+            <i class="bi bi-heart"></i> Comic's Favoritos
+          </a>
+        </li>
+
+        <!-- Botón Dashboard -->
+        <li class="nav-item me-2">
+          <a *ngIf="currentRoute === '/favorites' || currentRoute.includes('/details')" class="nav-link active" [routerLink]="['/dashboard']">
+            <i class="bi bi-house"></i> Dashboard
+          </a>
+        </li>
+
+        <!-- Información del Usuario -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+             {{ user.nombre }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#">Identificación: {{ user.identificacion }}</a></li>
+            <li><a class="dropdown-item" href="#">Email: {{ user.email }}</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <button class="dropdown-item text-danger" (click)="logout()">Cerrar sesión</button>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </nav>
-  
-  <!-- Espacio para evitar que el contenido se esconda detrás del header -->
-  <div style="margin-top: 70px;"></div>
-  
+  </div>
+</nav>
+
+<!-- Espacio para evitar que el contenido se esconda detrás del header -->
+<div style="margin-top: 70px;"></div>

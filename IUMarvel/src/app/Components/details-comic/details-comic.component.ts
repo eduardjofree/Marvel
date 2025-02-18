@@ -10,6 +10,7 @@ import { ComicsService } from '../../Services/comics.service';
 export class DetailsComicComponent implements OnInit {
 
   comic: any;
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,8 +29,10 @@ export class DetailsComicComponent implements OnInit {
     this.comicsService.getComicDetails(comicId).subscribe({
       next: (data) => {
         this.comic = data;
+        this.isLoading = false;
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('Error al obtener los detalles del cómic:', err);
       }
     });

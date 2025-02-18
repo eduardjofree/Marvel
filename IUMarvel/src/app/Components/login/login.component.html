@@ -42,6 +42,15 @@
             <!-- Botón de inicio de sesión -->
             <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Ingresar</button>
 
+            <!-- Loader de Angular Material mientras se cargan el usuario -->
+            <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center my-5">
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50">
+              </mat-progress-spinner>
+            </div>
+
             <!-- Mensaje de error -->
             <div *ngIf="errorMessage" class="text-danger text-center mt-3">
               {{ errorMessage }}

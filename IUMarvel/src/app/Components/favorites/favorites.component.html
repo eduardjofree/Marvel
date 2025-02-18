@@ -1,11 +1,6 @@
 <div class="container mt-5">
   <h3 class="text-center mb-4">Mis cómics favoritos</h3>
 
-  <!-- Enlace para ir a Dashboard -->
-  <div class="mt-4">
-    <a [routerLink]="['/dashboard']" class="">Volver al Dashboard</a>
-  </div>
-
    <!-- Loader de Angular Material mientras se cargan los cómics -->
    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center my-5">
     <mat-progress-spinner

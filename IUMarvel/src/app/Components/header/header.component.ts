@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../Services/Auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css'] // 🔹 Estaba mal escrito "styleUrl" → debe ser "styleUrls"
 })
 export class HeaderComponent implements OnInit {
 
   user: any = {};
   isAuthenticated: boolean = false;
+  currentRoute: string = '';
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router) {
+    // Detecta cambios en la URL para mostrar los botones correctos
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects; // ✅ Captura la ruta final después de redirecciones
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.authService.loadUserData().subscribe({
@@ -28,10 +36,9 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.isAuthenticated = false;
-    this.authService.isAuthenticated = false
+    this.authService.isAuthenticated = false;
     localStorage.removeItem('token');
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-
 }
